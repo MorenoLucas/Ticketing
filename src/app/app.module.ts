@@ -6,16 +6,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
-import { ComponentsComponent } from './components/components.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    DetailsComponent,
-    ShoppingCartComponent,
-    ComponentsComponent
+    
   ],
   imports: [
     BrowserModule,
