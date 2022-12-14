@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolsService } from 'src/app/services/tools.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  events: Event[] = [];
+  constructor(private _tools: ToolsService) { 
 
-  constructor() { }
-
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+    this.getEvents();
+  }
+
+
+  getEvents(): void {
+    this._tools.getEvents().subscribe({
+      next: (eventsApi: Event[]) => {
+        this.events = eventsApi
+      }
+    })
+  }
 }

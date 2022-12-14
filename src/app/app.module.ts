@@ -8,6 +8,7 @@ import { DetailsComponent } from './pages/details/details.component';
 import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentsModule } from './components/components.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { ComponentsModule } from './components/components.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, ComponentsModule
+    BrowserAnimationsModule, ComponentsModule, HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -6,10 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ToolsService {
-  pathEvents:string = './assets/data/event-info-68.json'
+  pathEvents:string = './assets/data/events.json'
   constructor(private _httpClient: HttpClient) { }
 
-  getEvents(): Observable<any> {
-    return this._httpClient.get(this.pathEvents);
+  getEvents(): Observable<Event[]> {
+    return this._httpClient.get<Event[]>(this.pathEvents);
+}
+
+getEventById(id: string): Observable<any> {
+  const url = `./assets/data/event-info-${id}.json`;
+  return this._httpClient.get<any>(url)
 }
 }

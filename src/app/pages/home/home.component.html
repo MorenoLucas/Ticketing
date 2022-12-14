@@ -1,4 +1,6 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 place-content-center m-5 sm:m-20 gap-16">
-<app-card-event></app-card-event>
-<app-card-event></app-card-event>
+<div *ngFor="let item of events">
+    <app-card-event [event]="item"></app-card-event>
+</div>
+
 </div>

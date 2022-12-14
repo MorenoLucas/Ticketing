@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { CardEventComponent } from './card-event/card-event.component';
 import { ShoppingcardComponent } from './shoppingcard/shoppingcard.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,10 +14,10 @@ import { ShoppingcardComponent } from './shoppingcard/shoppingcard.component';
     ShoppingcardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule, RouterModule
   ], 
   exports: [    HeaderComponent,
     CardEventComponent,
-    ShoppingcardComponent]
+    ShoppingcardComponent], providers: [DatePipe]
 })
 export class ComponentsModule { }
