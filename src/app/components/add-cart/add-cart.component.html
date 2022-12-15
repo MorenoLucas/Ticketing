@@ -1,0 +1,9 @@
+<div class="flex">
+    <button class="border border-black p-1" (click)="_cartService.removeTicket(event)">
+        <img class="icon-lg p-1" src="assets/icons/-.svg">
+    </button>
+    <input type="number" class="w-[60px] rounded-none border-y border-black text-base text-center outline-0"   [ngModel]="event?.session![0].itemQnt"  (ngModelChange)="_cartService.updateEvent(event, $event)" />
+    <button class="border border-black p-1" (click)="_cartService.addTicket(event,1)">
+        <img class="icon-lg p-1" src="assets/icons/+.svg">
+    </button>
+</div>

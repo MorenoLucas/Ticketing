@@ -6,5 +6,21 @@
 .colorOneBox{
     color: #A80624
 }
-html, body { height: 100%; }
+html, body { height: 100%;  scroll-behavior: smooth;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.icon-lg {
+    height: 25px;
+    max-width: 25px;
+    min-width: 25px;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+  input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

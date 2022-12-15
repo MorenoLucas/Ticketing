@@ -4,6 +4,8 @@ import { HeaderComponent } from './header/header.component';
 import { CardEventComponent } from './card-event/card-event.component';
 import { ShoppingcardComponent } from './shoppingcard/shoppingcard.component';
 import { RouterModule } from '@angular/router';
+import { AddCartComponent } from './add-cart/add-cart.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -11,13 +13,14 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HeaderComponent,
     CardEventComponent,
-    ShoppingcardComponent
+    ShoppingcardComponent,
+    AddCartComponent
   ],
   imports: [
-    CommonModule, RouterModule
+    CommonModule, RouterModule, SharedModule
   ], 
   exports: [    HeaderComponent,
     CardEventComponent,
-    ShoppingcardComponent], providers: [DatePipe]
+    ShoppingcardComponent, AddCartComponent], providers: [DatePipe]
 })
 export class ComponentsModule { }

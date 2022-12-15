@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToolsService } from 'src/app/services/tools.service';
+import { Events } from '../../types/event';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { ToolsService } from 'src/app/services/tools.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  events: Event[] = [];
+  events!: Events[] ;
   constructor(private _tools: ToolsService) { 
 
   }
@@ -19,7 +20,9 @@ export class HomeComponent implements OnInit {
 
   getEvents(): void {
     this._tools.getEvents().subscribe({
-      next: (eventsApi: Event[]) => {
+      next: (eventsApi: Events[]) => {
+        eventsApi?.sort((a, b) => {return a.startDate.localeCompare(b.startDate)})
+        
         this.events = eventsApi
       }
     })
