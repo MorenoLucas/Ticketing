@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from 'src/app/services/cart.service';
+import CartService from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-shoppingcard',
@@ -12,7 +12,6 @@ export class ShoppingcardComponent implements OnInit {
 
   ngOnInit(): void {
     this._cartService.currentDataCart$.subscribe(data => {
-      console.log(data);
       if(data){
         this.tickets = data
       }

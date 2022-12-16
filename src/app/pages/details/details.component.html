@@ -1,7 +1,7 @@
 <div class="flex flex-row items-center justify-around min-h-screen" >
   <div class="w-2/3 m-10">
     <div class="flex flex-col sm:flex-row gap-10 items-center justify-center sm:items-start sm:justify-start w-full">
-      <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4" *ngIf="event; else noData">
+      <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4" *ngIf="_tools.artistSession$  | async as event else noData">
         <div class="flex-none sm:flex sm:flex-col sm:gap-4">
           <div class="flex-auto sm:ml-5 justify-evenly w-2/5">
             <div class="flex items-center justify-between sm:mt-2">
@@ -22,42 +22,42 @@
           <!-- IMAGE -->
           <div class="relative h-full w-full sm:mb-0 mb-3">
             <img
-              [src]="event?.image"
+              [src]="event.image"
               alt="aji"
               class="w-full h-full object-cover rounded-2xl"
             />
           </div>
           <!-- sessions -->
           <div
-            class="flex pt-2 text-sm text-gray-500 gap-3 items-center border-b"
-            *ngFor="let session of this.eventCart?.session"
+            class="flex pt-2 text-sm text-gray-500 gap-3 items-center border-b justify-evenly"
+            *ngFor="let session of event?.session; index as i"
           >
-            <div class="flex-1 flex-col items-center">
+            <div class="flex-1 flex-col items-center ">
               <p class="">
                 Fecha:
                 <span class="font-bold text-black"
-                  >{{ session.date | date : "dd  MMMM YYYY" }}
+                  >{{ session.date | date: "dd  MMMM YYYY" }}
                 </span>
               </p>
               <p>
                 Disponibilidad:
                 <span class="font-bold text-black">
-                  {{ session.availability }}</span
+                  {{ (session.availability) - (session.itemQnt) }}</span
                 >
               </p>
             </div>
-            <div class="flex-1 inline-flex items-center align-center">
-              <app-add-cart [eventCart]="event" [session]="session"></app-add-cart>
+            <div class="flex-1 inline-flex justify-around ">
+              <app-add-cart [eventCart]="event" [session]="event.session" [index]="i"></app-add-cart>
             </div>
-            <button
+            <!-- <button
               class="flex-no-shrink bg-red-700 hover:bg-red-800 align-center px-4 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-700 hover:border-red-700 text-white rounded-md transition ease-in duration-300 h-full"
             >
               Comprar
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
-      <app-shoppingcard *ngIf="event" class="items-end w-full sm:w-1/2 p-4 m-4"></app-shoppingcard>
+      <app-shoppingcard *ngIf="_tools.artistSession$  | async " class="items-end w-full sm:w-1/2 p-4 m-4"></app-shoppingcard>
 
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CartService } from 'src/app/services/cart.service';
+import CartService from 'src/app/services/cart.service';
+import { ToolsService } from 'src/app/services/tools.service';
 import { Cart, EventDetail, Sessions } from 'src/app/types/event';
 
 @Component({
@@ -9,22 +10,20 @@ import { Cart, EventDetail, Sessions } from 'src/app/types/event';
 })
 export class AddCartComponent implements OnInit, OnChanges {
   @Input() eventCart!: EventDetail  
-  @Input() session!: any 
+  @Input() session!: any; 
+  @Input() index!: any;
   event!: Cart
-  constructor(public _cartService: CartService) {
+  constructor(public _cartService: CartService, public _tools: ToolsService) {
    
    }
 
    ngOnChanges(changes: SimpleChanges) {
-    let changeSession = changes['session'].currentValue
     this.event = {
       id: this.eventCart.id,
       title: this.eventCart.title,
-      session: [{
-        availability : this.session.availability,
-        itemQnt:  changeSession.itemQnt !== undefined ? changeSession.itemQnt : 0,
-        date: this.session.date
-      }]
+      subtitle: this.eventCart.subtitle,
+      image: this.eventCart.image,
+      session: this.session
     }
    }
   ngOnInit(): void {

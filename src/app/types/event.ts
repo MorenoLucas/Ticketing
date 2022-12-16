@@ -19,17 +19,19 @@ export interface EventDetail {
 export interface Sessions {
     availability: string,
     date: string,
-    itemQnt?: string,
+    itemQnt: string,
 }
 
 export interface Cart {
     id: string,
     title: string,
+    subtitle: string,
+    image: string,
     session: [{
         id?: number,
         itemQnt: number,
         date: string,
-        availability: string,
+        availability: number,
     }]
 }
 
