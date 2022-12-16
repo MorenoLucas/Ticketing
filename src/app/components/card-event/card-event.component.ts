@@ -10,10 +10,8 @@ export class CardEventComponent implements OnInit, OnChanges {
 
   @Input() event: any | undefined 
   constructor(private _datePipe: DatePipe) {
-    console.log(this.event);
    }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
   }
   ngOnInit(): void {
   }

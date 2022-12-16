@@ -14,7 +14,10 @@ export default class CartService {
 
   private cart = new BehaviorSubject<Array<Cart>>([]); 
   public currentDataCart$ = this.cart.asObservable(); 
-  constructor(private _tools: ToolsService) {}
+  constructor(private _tools: ToolsService) {
+
+  }
+
 
   //Agregamos evento al carrito de compra
   public addCart(newEvent:any, index:number){
@@ -33,16 +36,16 @@ export default class CartService {
         listCart.push(newEvent)
       }
     }else{
+      localStorage.removeItem('clear')
       listCart = []
       listCart.push(newEvent)
     }
-    console.log(listCart);
+    localStorage.setItem('cart', JSON.stringify(listCart))
     this.cart.next(listCart)
   }
 
   //Eliminamos elemento del carrito
   public removeElementCart(newEvent:any, id:string){
-    console.log(newEvent);
     //Obtenemos el valor actual de carrito
     let listCart = this.cart.getValue();
     //Buscamos el item del carrito para eliminar
@@ -55,13 +58,12 @@ export default class CartService {
           this.removeTicket(listCart[eventIndex], sesionIndex);
         } else if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
           listCart[eventIndex].session.splice(sesionIndex, 1);
+          localStorage.setItem('cart', JSON.stringify(listCart))
           this.cart.next(listCart); 
         }
 
       }
-      //Eliminamos el item del array del carrito
     }
-    // this.cart.next(listCart); //Enviamos el valor a todos los Observers que estan escuchando nuestro Observable
 }
 
   addTicket(event: Cart, index: number, q: number) {
@@ -76,9 +78,7 @@ export default class CartService {
     this.updateEvent(p, p.session[index].itemQnt - 1, index);
   }
 
-  deleteEvent(event: Cart) {
-    // this.updateEvent(event, 0);
-  }
+
 
   updateEvent(event: Cart, value: any, index:number) {
    

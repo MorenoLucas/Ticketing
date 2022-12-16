@@ -47,11 +47,12 @@ export class DetailsComponent implements OnInit {
     }, 500)
   }
   compareEvent(indexArtist:number) {
+    
         this.sessions.forEach( (item:any) => {
         let indexSession = this.tickets[indexArtist].session.findIndex( (session:any) => session.date == item.date );
         if(indexSession !== -1){
           item.itemQnt = this.tickets[indexArtist].session[indexSession].itemQnt || 0
-          item.availability = String(this.tickets[indexArtist].session[indexSession].availability - this.tickets[indexArtist].session[indexSession].itemQnt)
+          item.availability = (this.tickets[indexArtist].session[indexSession].availability - this.tickets[indexArtist].session[indexSession].itemQnt)
         }
       })
   }

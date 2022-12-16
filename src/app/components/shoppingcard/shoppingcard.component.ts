@@ -20,7 +20,6 @@ export class ShoppingcardComponent implements OnInit {
             item.itemQnt == 0 ? acu = acu + 1 : acu
           })
           if(acu == ticket.session.length){
-            console.log('estan todos en ceros');
             ticket['disabled'] = true
           }else{
             ticket['disabled'] = false

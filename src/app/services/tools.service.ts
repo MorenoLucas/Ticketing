@@ -34,10 +34,36 @@ getEventById(id: string): void {
   let eventCart:any
   this._httpClient.get<any>(url).subscribe( (data:any) => {
     let session = data.sessions
-    session.map((item:any) => { 
-      item.availability = parseInt(item.availability)
-      item['itemQnt'] = 0
-    })
+    let acu = 0
+    let cart = JSON.parse(localStorage.getItem('cart')||"[]")
+    if(cart.length > 0) {
+      const indexCart = cart.findIndex((cartitem:any) => cartitem.id == data.event.id)
+      session.map((item:any) => {
+        if(indexCart !== -1) {
+          cart[indexCart].session.forEach((session:any) => {
+            console.log(item.id,'-', session.id);
+            if(item.date === session.date){
+              console.log('item iguales');
+              item.availability = session.availability
+              item['itemQnt'] = session.itemQnt
+              item['id'] = session.id
+            }
+          })
+        }else {
+          item.availability = parseInt(item.availability)
+          item['itemQnt'] = 0
+          item['id'] = acu++
+        }
+     })
+    } else {
+      session.map((item:any) => { 
+        item.availability = parseInt(item.availability)
+        item['itemQnt'] = 0
+        item['id'] = acu++
+      })
+
+  }
+    
     eventCart = {
         id: data.event.id,
         title: data.event.title,
@@ -45,6 +71,7 @@ getEventById(id: string): void {
         subtitle: data.event.subtitle,
         session: session 
     }
+    console.log(eventCart);
       eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
       this.subject.next(eventCart)
     })
