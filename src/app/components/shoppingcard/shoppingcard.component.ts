@@ -14,6 +14,18 @@ export class ShoppingcardComponent implements OnInit {
     this._cartService.currentDataCart$.subscribe(data => {
       if(data){
         this.tickets = data
+        this.tickets.map((ticket:any) =>{
+          let acu:number = 0
+          ticket.session.forEach((item:any) =>{
+            item.itemQnt == 0 ? acu = acu + 1 : acu
+          })
+          if(acu == ticket.session.length){
+            console.log('estan todos en ceros');
+            ticket['disabled'] = true
+          }else{
+            ticket['disabled'] = false
+          }
+        })
       }
     })
   }

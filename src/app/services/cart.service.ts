@@ -26,14 +26,6 @@ export default class CartService {
         let sesionIndex = listCart[eventIndex].session.findIndex( (item:any) => item.date == newEvent.session[index].date)
         if(sesionIndex !== -1){
           listCart[eventIndex].session[sesionIndex] = newEvent.session[index]
-          if(listCart[eventIndex].session[sesionIndex].itemQnt == 0 ){
-            console.log('0 ticket');
-            listCart[eventIndex].session.splice(sesionIndex, 1)         
-               // if(listCart[eventIndex].session.length == 0){
-            //   console.log('Entra listcar');
-            //   listCart.splice(eventIndex,1)
-            // }
-          }
         }else{
           listCart[eventIndex].session.push(newEvent.session[0])
         }
@@ -61,6 +53,9 @@ export default class CartService {
       if(sesionIndex !== -1){
         if(listCart[eventIndex].session[sesionIndex].itemQnt > 0){
           this.removeTicket(listCart[eventIndex], sesionIndex);
+        } else if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
+          listCart[eventIndex].session.splice(sesionIndex, 1);
+          this.cart.next(listCart); 
         }
 
       }
