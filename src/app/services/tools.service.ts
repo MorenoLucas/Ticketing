@@ -107,5 +107,16 @@ getEventById(id: string): void {
     eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
     this.subject.next(eventCart)
   }
-
+  /*
+  * Actualizamos la cantidad borrando en carrito
+  */
+  updateQnt(date:string, qnt:number){
+    let eventCart = this.subject.getValue()
+      const index = eventCart.session?.findIndex( (item:any) => item.date == date)
+      if(index != -1){
+        eventCart.session[index].itemQnt = qnt
+        this.subject.next(eventCart)
+      } 
+  
+  }
 }

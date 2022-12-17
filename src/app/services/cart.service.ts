@@ -52,11 +52,14 @@ export default class CartService {
       let sesionIndex = listCart[eventIndex].session.findIndex( (item:any) => item.date == newEvent.date)
       if(sesionIndex !== -1){
         if(listCart[eventIndex].session[sesionIndex].itemQnt > 0){
-          listCart[eventIndex].session[sesionIndex].itemQnt -= 1       
+          listCart[eventIndex].session[sesionIndex].itemQnt -= 1 
+          const qnt = listCart[eventIndex].session[sesionIndex].itemQnt
+          this._tools.updateQnt(listCart[eventIndex].session[sesionIndex].date!, qnt)
+          
           if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
-             listCart[eventIndex].session.splice(sesionIndex, 1);
+            this._tools.updateQnt(listCart[eventIndex].session[sesionIndex].date!, qnt)
+            listCart[eventIndex].session.splice(sesionIndex, 1);
              if(listCart[eventIndex].session.length < 1 ){
-              // this._tools.getEventById(listCart[eventIndex].id)
               listCart.splice(eventIndex, 1);
             }
           }
