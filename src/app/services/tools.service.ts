@@ -37,13 +37,18 @@ export class ToolsService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  /*
+  * Pide todos los eventos a la api
+  */
   getEvents() {
      this._httpClient.get<Events[]>(this.pathEvents).subscribe((data) => {
       data?.sort((a, b) => {return a.endDate.localeCompare(b.endDate)})
         this.subjectEvents.next(data);
      });
 }
-
+/*
+  * Pide evento por id, y agrega propiedades, y actualiza si existe carrito
+  */
 getEventById(id: string): void {
   const url = `./assets/data/event-info-${id}.json`;
   let eventCart:any
@@ -88,7 +93,9 @@ getEventById(id: string): void {
     }
   })
   }
-
+  /*
+  * Actualiza el evento 
+  */
   updateEvent(event: Cart){
    let  eventCart = {
       id: event.id,
@@ -100,4 +107,5 @@ getEventById(id: string): void {
     eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
     this.subject.next(eventCart)
   }
+
 }

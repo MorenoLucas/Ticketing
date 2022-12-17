@@ -66,7 +66,7 @@ export default class CartService {
       }
     }
 }
-
+  //agregamos un ticket a la sesión
   addTicket(event: Cart, index: number, q: number) {
     
     if(!event.session[index].availability) {
@@ -74,13 +74,13 @@ export default class CartService {
     }
    this.updateEvent(event, q+event.session[index].itemQnt, index);
   }
-
+  //Eliminamos de a un ticket
    removeTicket(p: any, index = 0) {
     this.updateEvent(p, p.session[index].itemQnt - 1, index);
   }
 
 
-
+  //Actualiza el evento, no deja poner mas ticket del stock y numeros negativos, llama  al metetodo addcart
   updateEvent(event: Cart, value: any, index:number) {
    
     if (value > event.session[index].availability) {
