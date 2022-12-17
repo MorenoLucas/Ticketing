@@ -39,7 +39,7 @@ export class ToolsService {
 
   getEvents() {
      this._httpClient.get<Events[]>(this.pathEvents).subscribe((data) => {
-      data?.sort((a, b) => {return a.startDate.localeCompare(b.startDate)})
+      data?.sort((a, b) => {return a.endDate.localeCompare(b.endDate)})
         this.subjectEvents.next(data);
      });
 }
@@ -48,35 +48,30 @@ getEventById(id: string): void {
   const url = `./assets/data/event-info-${id}.json`;
   let eventCart:any
   
-  this._httpClient.get<any>(url).subscribe( (data:any) => {
+  this._httpClient.get<any>(url).subscribe( {
+    next:(data:any) => {
     let session = data.sessions
     let acu = 0
     let cart = JSON.parse(localStorage.getItem('cart')||"[]")
+    session.map((item:any) => { 
+      item.availability = parseInt(item.availability)
+      item['itemQnt'] = 0
+      item['id'] = acu++
+    })
     if(cart.length > 0) {
       const indexCart = cart.findIndex((cartitem:any) => cartitem.id == data.event.id)
+      ///si existe recorro todas las sesiones
+      if(indexCart !== -1) {
       session.map((item:any) => {
-        if(indexCart !== -1) {
-          cart[indexCart].session.forEach((session:any) => {
-            if(item.date === session.date){
-              item.availability = session.availability
-              item['itemQnt'] = session.itemQnt
+        const index = cart[indexCart].session.findIndex((ss:any) => ss.id == item.id)
+            if(index != -1){
+              item.availability = cart[indexCart].session[index].availability
+              item['itemQnt'] = cart[indexCart].session[index].itemQnt
               item['id'] = session.id
             }
-          })
-        }else {
-          item.availability = parseInt(item.availability)
-          item['itemQnt'] = 0
-          item['id'] = acu++
-        }
-     })
-    } else {
-      session.map((item:any) => { 
-        item.availability = parseInt(item.availability)
-        item['itemQnt'] = 0
-        item['id'] = acu++
-      })
-
-  }
+        })
+      }
+    } 
     eventCart = {
         id: data.event.id,
         title: data.event.title,
@@ -86,7 +81,12 @@ getEventById(id: string): void {
     }
       eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
       this.subject.next(eventCart)
-    })
+    },
+    error: (error: any) => {
+      this.subject.next(EVENTO)
+
+    }
+  })
   }
 
   updateEvent(event: Cart){

@@ -27,7 +27,6 @@ export default class CartService {
         if(sesionIndex !== -1){
           listCart[eventIndex].session[sesionIndex] = newEvent.session[0]
         }else{
-          console.log('entra aqui');
           listCart[eventIndex].session.push(newEvent.session[0])
         }
       }else {
@@ -56,13 +55,12 @@ export default class CartService {
           listCart[eventIndex].session[sesionIndex].itemQnt -= 1       
           if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
              listCart[eventIndex].session.splice(sesionIndex, 1);
-             console.log(listCart[eventIndex].session.length);
              if(listCart[eventIndex].session.length < 1 ){
               listCart.splice(eventIndex, 1);
             }
           }
         } 
-        localStorage.setItem('cart', JSON.stringify(listCart))
+        listCart.length > 0 ? localStorage.setItem('cart', JSON.stringify(listCart)) : localStorage.removeItem('cart')
         this.cart.next(listCart); 
 
       }
