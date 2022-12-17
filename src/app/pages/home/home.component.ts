@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ToolsService } from 'src/app/services/tools.service';
 import { Events } from '../../types/event';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class HomeComponent implements OnInit {
   events!: Events[] ;
-  constructor(private _tools: ToolsService) { 
+  constructor(public _tools: ToolsService) { 
 
   }
 
@@ -19,12 +21,13 @@ export class HomeComponent implements OnInit {
 
 
   getEvents(): void {
-    this._tools.getEvents().subscribe({
-      next: (eventsApi: Events[]) => {
-        eventsApi?.sort((a, b) => {return a.startDate.localeCompare(b.startDate)})
+    this._tools.getEvents()
+    // .subscribe({
+    //   next: (eventsApi: Events[]) => {
+    //     eventsApi?.sort((a, b) => {return a.startDate.localeCompare(b.startDate)})
         
-        this.events = eventsApi
-      }
-    })
+    //     this.events = eventsApi
+    //   }
+    // })
   }
 }

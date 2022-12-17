@@ -9,9 +9,7 @@ import { ToolsService } from './tools.service';
 })
 export default class CartService {
   
-  
-  cart2: Cart[] | undefined
-
+ 
   private cart = new BehaviorSubject<Array<Cart>>([]); 
   public currentDataCart$ = this.cart.asObservable(); 
   constructor(private _tools: ToolsService) {
@@ -20,23 +18,23 @@ export default class CartService {
 
 
   //Agregamos evento al carrito de compra
-  public addCart(newEvent:any, index:number){
+  public addCart(newEvent:any){
     let listCart = this.cart.getValue()
     if(listCart){
       let eventIndex = listCart.findIndex( item => item.id === newEvent.id)
       if(eventIndex !== -1){
-        //hacemos push a las sesiones de ese artista listCart[eventIndex]
-        let sesionIndex = listCart[eventIndex].session.findIndex( (item:any) => item.date == newEvent.session[index].date)
+        let sesionIndex = listCart[eventIndex].session.findIndex( (item:any) => item.date == newEvent.session[0].date)
         if(sesionIndex !== -1){
-          listCart[eventIndex].session[sesionIndex] = newEvent.session[index]
+          listCart[eventIndex].session[sesionIndex] = newEvent.session[0]
         }else{
+          console.log('entra aqui');
           listCart[eventIndex].session.push(newEvent.session[0])
         }
       }else {
         listCart.push(newEvent)
       }
     }else{
-      localStorage.removeItem('clear')
+      localStorage.removeItem('cart')
       listCart = []
       listCart.push(newEvent)
     }
@@ -55,12 +53,17 @@ export default class CartService {
       let sesionIndex = listCart[eventIndex].session.findIndex( (item:any) => item.date == newEvent.date)
       if(sesionIndex !== -1){
         if(listCart[eventIndex].session[sesionIndex].itemQnt > 0){
-          this.removeTicket(listCart[eventIndex], sesionIndex);
-        } else if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
-          listCart[eventIndex].session.splice(sesionIndex, 1);
-          localStorage.setItem('cart', JSON.stringify(listCart))
-          this.cart.next(listCart); 
-        }
+          listCart[eventIndex].session[sesionIndex].itemQnt -= 1       
+          if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
+             listCart[eventIndex].session.splice(sesionIndex, 1);
+             console.log(listCart[eventIndex].session.length);
+             if(listCart[eventIndex].session.length < 1 ){
+              listCart.splice(eventIndex, 1);
+            }
+          }
+        } 
+        localStorage.setItem('cart', JSON.stringify(listCart))
+        this.cart.next(listCart); 
 
       }
     }
@@ -83,20 +86,24 @@ export default class CartService {
   updateEvent(event: Cart, value: any, index:number) {
    
     if (value > event.session[index].availability) {
-      event.session[index].itemQnt = event.session[index].availability;
-      
+      event.session[index].itemQnt = event.session[index].availability; 
     } else {
-
       event.session[index].itemQnt = value || 0;
-      console.log(event.session[index].itemQnt);
     }
-
     if (event.session[index].itemQnt < 0) {
       event.session[index].itemQnt = 0;
       
     }
     
     this._tools.updateEvent(event)
-    this.addCart(event, index)
+    const ev = {
+      id: event.id,
+      title: event.title,
+      subtitle: event.subtitle,
+      image: event.image,
+      session: [event.session[index]],
+
+    }
+    this.addCart(ev)
   }
 }

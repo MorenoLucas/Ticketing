@@ -27,11 +27,13 @@ export interface Cart {
     title: string,
     subtitle: string,
     image: string,
+
     session: [{
         id?: number,
         itemQnt: number,
         date: string,
         availability: number,
-    }]
+    }],
+    disabled?: boolean,
 }
 

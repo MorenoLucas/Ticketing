@@ -1,6 +1,14 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 place-content-center m-5 sm:m-20 gap-16">
+<div class="grid grid-cols-1 sm:grid-cols-2 place-content-center m-5 sm:m-20 gap-16" *ngIf="_tools.totalEvents$ | async as events else noData">
 <div *ngFor="let item of events">
     <app-card-event [event]="item"></app-card-event>
 </div>
 
 </div>
+
+<ng-template #noData>
+
+    <div class="grid place-content-center text-xl font-bold">
+        No info
+    </div>
+
+</ng-template>
