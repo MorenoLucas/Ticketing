@@ -56,13 +56,13 @@ export default class CartService {
           if(listCart[eventIndex].session[sesionIndex].itemQnt == 0){
              listCart[eventIndex].session.splice(sesionIndex, 1);
              if(listCart[eventIndex].session.length < 1 ){
+              // this._tools.getEventById(listCart[eventIndex].id)
               listCart.splice(eventIndex, 1);
             }
           }
         } 
         listCart.length > 0 ? localStorage.setItem('cart', JSON.stringify(listCart)) : localStorage.removeItem('cart')
         this.cart.next(listCart); 
-
       }
     }
 }
