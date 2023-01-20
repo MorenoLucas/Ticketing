@@ -6,9 +6,6 @@
     </div>
       <div class="flex flex-col w-full md:flex-row">
           <div class="flex flex-row justify-around p-4 font-bold leading-none text-gray-800 uppercase bg-gray-400 rounded md:flex-col md:items-center md:justify-center md:w-1/4">
-              <!-- <div class="md:text-2xl">Jan</div>
-              <div class="md:text-4xl">13</div>
-              <div class="md:text-lg">7 pm</div> -->
               <div class="md:text-2xl text-center"  >{{event.startDate | date: 'dd - MMM YYYY'}}</div>
               <div class="md:text-2xl text-center"  >-</div>
               <div class="md:text-2xl text-center"  >{{event.endDate | date: 'dd - MMM YYYY'}}</div>
@@ -18,7 +15,7 @@
                 <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-800 cursor-pointer" [routerLink]="['/details', event.id]">{{event?.title}}  <span class="leading-normal text-sm block" >{{event?.subtitle}}</span></h1>
             
              
-              <p class="leading-normal hidden sm:block" [innerHTML]="event?.description"></p>
+              <p class="leading-normal hidden lg:block" [innerHTML]="event?.description"></p>
               <div class="flex flex-row items-center mt-4 text-gray-700">
                   <div class="w-1/2">
                       {{event?.place}}

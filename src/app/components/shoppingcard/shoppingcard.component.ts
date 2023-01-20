@@ -9,15 +9,10 @@ import CartService from 'src/app/services/cart.service';
 
 })
 export class ShoppingcardComponent implements OnInit {
-  tickets: any
   constructor(public _cartService: CartService) { }
 
   ngOnInit(): void {
-    this._cartService.currentDataCart$.subscribe(data => {
-      if(data){
-        this.tickets = data
-      }
-    })
+
   }
 
   removeTicket(ticket: any, id:string): void {
