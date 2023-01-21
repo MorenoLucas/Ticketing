@@ -1,0 +1,19 @@
+{
+    "event": {
+        "id": "219",
+        "title": "MANÁ",
+        "subtitle": "Cama incendiada",
+        "image": "/assets/img/sample-image.jpg"
+    },
+    "sessions": [
+
+        {
+            "date": "1444428000000",
+            "availability": "5"
+        },
+        {
+            "date": "1446332400000",
+            "availability": "8"
+        }
+    ]
+}
