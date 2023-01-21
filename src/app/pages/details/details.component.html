@@ -1,7 +1,7 @@
 <div class="flex flex-row items-center justify-around min-h-screen" >
   <div class="w-screen sm:w-2/3 sm:m-10">
-    <div class="flex flex-col sm:flex-row gap-10 items-center justify-center sm:items-start sm:justify-start w-full" *ngIf="_tools.artistSession$  | async as event" >
-      <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4" *ngIf="event.id != '' else noData">
+    <div class="flex flex-col sm:flex-row gap-10 items-center justify-center sm:items-start sm:justify-start w-full" *ngIf="$artistSession | async as event " >
+      <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4" *ngIf="event?.id != '' else noData">
         <div class="flex-none sm:flex sm:flex-col sm:gap-4">
           <div class="flex-auto sm:ml-5 justify-evenly ">
             <div class="flex items-center justify-between sm:mt-2">
@@ -57,11 +57,11 @@
           </div>
         </div>
       </div>
-      <app-shoppingcard *ngIf="_tools.artistSession$  | async " class="items-end w-full sm:w-1/2 p-4 m-4"></app-shoppingcard>
+    </div>
+      <app-shoppingcard *ngIf="$artistSession | async " class="items-end w-full sm:w-1/2 p-4 m-4"></app-shoppingcard>
 
     </div>
   </div>
-</div>
 <div class="">
     <button class="absolute top-24 right-10 rounded-lg px-4 py-2 bg-slate-50 colorOneBox" [routerLink]="'/home'">
       ATRAS
@@ -76,3 +76,4 @@
     EVENT INFO NOT FOUND
   </div>
 </ng-template>
+
