@@ -1,15 +1,15 @@
-<div *ngIf="(_cartService.currentDataCart$ | async ) as tickets">
+<div *ngIf="($currentCart| async ) as tickets">
 <div class="flex flex-col items-center justify-start  bg-white shadow-lg rounded-md" *ngIf=" tickets.length > 0; else noTikect">
 <div class="flex flex-col bg-white shadow-lg rounded-md w-full" *ngFor="let ticket of tickets" >
     <div class="flex flex-row border-b p-3 font-bold" >
         {{ticket.title}}
     </div>
-    <div class="" *ngFor="let item of ticket.session">
-       <div class="flex flex-row gap-10 p-3 justify-between" *ngIf="item.itemQnt >= 0">
+    <div class="" *ngFor="let item of ticket.session; let i = index">
+       <div class="flex flex-row gap-10 p-3 justify-between" *ngIf="item.itemQnt > 0">
            <div>{{item.date | date: 'dd MMM, YYYY'}}</div>
            <div>x{{item.itemQnt}}</div>
            <div>
-               <img src="/assets/img/trash.png" alt="" class="w-5" (click)="removeTicket(item, ticket.id)">
+               <img src="/assets/img/trash.png" alt="" class="w-5" (click)="removeTicket(ticket, i)">
            </div>
 
        </div>

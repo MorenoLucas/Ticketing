@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ToolsService } from 'src/app/services/tools.service';
-import { Events } from '../../types/event';
+import { Events } from 'src/app/types/event';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,9 @@ import { Events } from '../../types/event';
 
 })
 export class HomeComponent implements OnInit {
-  events!: Events[] ;
-  constructor(public _tools: ToolsService) { 
-
+  $totalEvents: Observable<Events[] | undefined>
+  constructor(private _tools: ToolsService) {
+    this.$totalEvents = this._tools.totalEvents$
   }
 
   ngOnInit(): void {
@@ -22,12 +23,6 @@ export class HomeComponent implements OnInit {
 
   getEvents(): void {
     this._tools.getEvents()
-    // .subscribe({
-    //   next: (eventsApi: Events[]) => {
-    //     eventsApi?.sort((a, b) => {return a.startDate.localeCompare(b.startDate)})
-        
-    //     this.events = eventsApi
-    //   }
-    // })
+
   }
 }

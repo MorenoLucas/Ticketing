@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component} from '@angular/core';
 import CartService from 'src/app/services/cart.service';
+import { Cart } from 'src/app/types/event';
 
 @Component({
   selector: 'app-shoppingcard',
@@ -8,14 +10,15 @@ import CartService from 'src/app/services/cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
-export class ShoppingcardComponent implements OnInit {
-  constructor(public _cartService: CartService) { }
+export class ShoppingcardComponent {
+   $currentCart: Observable<Cart[] | undefined>;
 
-  ngOnInit(): void {
-
+  constructor(private _cartService: CartService) {
+    this.$currentCart = this._cartService.currentDataCart$
   }
 
-  removeTicket(ticket: any, id:string): void {
-    this._cartService.removeElementCart(ticket,id)
+
+  removeTicket(ticket: any, id:number): void {
+    this._cartService.removeTicket(ticket,id)
   }
 }

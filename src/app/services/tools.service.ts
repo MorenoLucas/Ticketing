@@ -3,36 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, Events } from '../types/event';
 import { BehaviorSubject } from 'rxjs';
 
-const ENVENTOFULL = [{id: '',
-title: '',
-subtitle: '',
-image: '',
-place: '',
-startDate: '',
-endDate: '',
-description: ''}]
-
-const EVENTO: Cart = {
-id: '',
-title: '',
-subtitle: '',
-image: '',
-session: [{
-    id: 0,
-    itemQnt: 0,
-    date: 'string',
-    availability: 0,
-}]}
 @Injectable({
   providedIn: 'root'
 })
 export class ToolsService {
   pathEvents:string = './assets/data/events.json'
 
-  private subject = new BehaviorSubject<Cart>(EVENTO);
+  private subject = new BehaviorSubject<Cart | undefined>(undefined);
   public artistSession$ = this.subject.asObservable();
-  
-  private subjectEvents = new BehaviorSubject<Array<Events>>(ENVENTOFULL);
+
+  private subjectEvents = new BehaviorSubject<Array<Events> | undefined>(undefined);
   public totalEvents$ = this.subjectEvents.asObservable();
 
   constructor(private _httpClient: HttpClient) { }
@@ -52,13 +32,13 @@ export class ToolsService {
 getEventById(id: string): void {
   const url = `./assets/data/event-info-${id}.json`;
   let eventCart:any
-  
+
   this._httpClient.get<any>(url).subscribe( {
     next:(data:any) => {
     let session = data.sessions
     let acu = 0
     let cart = JSON.parse(localStorage.getItem('cart')||"[]")
-    session.map((item:any) => { 
+    session.map((item:any) => {
       item.availability = parseInt(item.availability)
       item['itemQnt'] = 0
       item['id'] = acu++
@@ -76,25 +56,25 @@ getEventById(id: string): void {
             }
         })
       }
-    } 
+    }
     eventCart = {
         id: data.event.id,
         title: data.event.title,
         image: data.event.image,
         subtitle: data.event.subtitle,
-        session: session 
+        session: session
     }
       eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
       this.subject.next(eventCart)
     },
     error: (error: any) => {
-      this.subject.next(EVENTO)
+      this.subject.next(undefined)
 
     }
   })
   }
   /*
-  * Actualiza el evento 
+  * Actualiza el evento
   */
   updateEvent(event: Cart){
    let  eventCart = {
@@ -102,7 +82,7 @@ getEventById(id: string): void {
       title: event.title,
       image: event.image,
       subtitle: event.subtitle,
-      session: event.session 
+      session: event.session
   }
     eventCart?.session.sort((a:any, b:any) => {return a.date.localeCompare(b.date)})
     this.subject.next(eventCart)
@@ -112,11 +92,13 @@ getEventById(id: string): void {
   */
   updateQnt(date:string, qnt:number){
     let eventCart = this.subject.getValue()
+    if(eventCart){
       const index = eventCart.session?.findIndex( (item:any) => item.date == date)
       if(index != -1){
         eventCart.session[index].itemQnt = qnt
         this.subject.next(eventCart)
-      } 
-  
+      }
+    }
+
   }
 }
