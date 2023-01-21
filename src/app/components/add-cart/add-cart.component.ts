@@ -1,33 +1,29 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import CartService from 'src/app/services/cart.service';
-import { ToolsService } from 'src/app/services/tools.service';
-import { Cart, EventDetail, Sessions } from 'src/app/types/event';
+import { Cart,  } from 'src/app/types/event';
 
 @Component({
   selector: 'app-add-cart',
   templateUrl: './add-cart.component.html',
   styleUrls: ['./add-cart.component.scss']
 })
-export class AddCartComponent implements OnInit, OnChanges {
-  @Input() eventCart!: EventDetail  
-  @Input() session!: any; 
+export class AddCartComponent {
+  @Input() eventCart: Cart | undefined
   @Input() index!: any;
-  event!: Cart
-  constructor(public _cartService: CartService, public _tools: ToolsService) {
-   
+  constructor(private _cartService: CartService) {
    }
 
-   ngOnChanges(changes: SimpleChanges) {
-    this.event = {
-      id: this.eventCart.id,
-      title: this.eventCart.title,
-      subtitle: this.eventCart.subtitle,
-      image: this.eventCart.image,
-      session: this.session
-    }
+   removeTicket(eventCart:Cart, index:number){
+     this._cartService.removeTicket(eventCart, index)
+
    }
-  ngOnInit(): void {
-    
-  }
+
+   updateEvent(eventCart:Cart, $event:any, index:number){
+    this._cartService.updateEvent(eventCart, $event, index)
+   }
+
+   addTicket(eventCart:Cart, index:number,){
+    this._cartService.addTicket(eventCart, index,1)
+   }
 
 }
